@@ -1,0 +1,53 @@
+﻿@page  "/vuelos"
+
+@using Demo.Data.Vuelos;
+@using System.Collections.Generic;
+
+@inject IVuelosService VuelosService
+
+@if (vuelos == null)
+{
+    <h1>Cargando</h1>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Origen</th>
+                <th scope="col">Destino</th>
+                <th scope="col">Hora de salida</th>
+                <th scope="col">Hora de llegada</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var vuelo in vuelos)
+            {
+            <tr>
+                <td>@vuelo.Id</td>
+                <td>@vuelo.Origen</td>
+                <td>@vuelo.Destino</td>
+                <td>@vuelo.HoraLlegada</td>
+                <td>@vuelo.HoraSalida</td>
+                <td>
+
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+
+    private Vuelo[] vuelos;
+
+    protected override async Task OnInitializedAsync()
+    {
+        vuelos = await VuelosService.ObtenerVuelos();
+    }
+
+}
