@@ -10,5 +10,9 @@
         Task<int> GuardarVuelo(Vuelo vuelo);
 
         Task<Vuelo> ObtenerVuelo(int idvuelo);
+
+        Task<int> ActualizarVuelo(Vuelo vuelo);
+
+        Task EliminarVuelo(int idVuelo);
     }
 }

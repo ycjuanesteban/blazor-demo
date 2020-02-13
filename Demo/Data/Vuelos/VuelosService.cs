@@ -42,5 +42,30 @@
             Vuelo vuelo = Vuelos.Where(x => x.Id == idvuelo).FirstOrDefault();
             return Task.Run(() => vuelo);
         }
+
+        public Task EliminarVuelo(int idVuelo)
+        {
+            Vuelo vuelo = Vuelos.Where(x => x.Id == idVuelo).FirstOrDefault();
+            if (vuelo != null)
+            {
+                return Task.Run(() => (Vuelos.Remove(vuelo)));
+            }
+
+            return Task.Run(null);
+        }
+
+        public Task<int> ActualizarVuelo(Vuelo vuelo)
+        {
+            Task.Delay(9000);
+
+            for (int i = 0; i < Vuelos.Count; i++)
+            {
+                if(Vuelos[i].Id == vuelo.Id)
+                {
+                    Vuelos[i] = vuelo;
+                }
+            }
+            return Task.Run(() => vuelo.Id);
+        }
     }
 }

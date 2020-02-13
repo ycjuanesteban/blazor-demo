@@ -4,6 +4,7 @@
 @using System.Collections.Generic;
 
 @inject IVuelosService VuelosService
+@inject IJSRuntime JS
 
 @if (vuelos == null)
 {
@@ -34,7 +35,7 @@ else
                     <td>@vuelo.HoraSalida</td>
                     <td>
                         <a type="button" class="btn btn-primary" href="/editar-vuelo/@vuelo.Id">Editar</a>
-                        <button type="button" class="btn btn-danger">Eliminar</button>
+                        <button type="button" class="btn btn-danger" @onclick="(() => EliminarVuelo(vuelo.Id))">Eliminar</button>
                     </td>
                 </tr>
             }
@@ -45,15 +46,24 @@ else
 
 @code {
 
-    private List<Vuelo> vuelos;
-    public Vuelo Vuelo { get; set; } = new Vuelo();
-
-    public bool IsOpen { get; set; }
-    public string HeaderText { get; set; }
+    List<Vuelo> vuelos;
+    Vuelo Vuelo { get; set; } = new Vuelo();
+    bool IsOpen { get; set; }
+    string HeaderText { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         vuelos = await VuelosService.ObtenerVuelos();
     }
 
+    private async void EliminarVuelo(int idVuelo)
+    {
+        string mensaje = "Deseas eliminar el vuelo?";
+        if (await JS.InvokeAsync<bool>("confirm", mensaje))
+        {
+            await VuelosService.EliminarVuelo(idVuelo);
+            vuelos = await VuelosService.ObtenerVuelos();
+            this.StateHasChanged();
+        }
+    }
 }
