@@ -1,0 +1,28 @@
+﻿@page "/editar-vuelo/{IdVuelo:int}"
+
+@using Data.Vuelos;
+
+@inject NavigationManager NavigationManager
+@inject IVuelosService VueloService
+
+<h3>Crear vuelo</h3>
+
+<FormularioVuelo onSubmitAction="@OnEditVuelo"
+                 TextoBoton="Actualizar vuelo"
+                 Vuelo="@vuelo" />
+
+@code {
+    [Parameter] public int IdVuelo { get; set; }
+    Vuelo vuelo = new Vuelo();
+
+    protected async override Task OnParametersSetAsync()
+    {
+        vuelo = await VueloService.ObtenerVuelo(IdVuelo);
+    }
+
+    async Task OnEditVuelo()
+    {
+        await VueloService.GuardarVuelo(vuelo);
+        NavigationManager.NavigateTo("vuelos");
+    }
+}

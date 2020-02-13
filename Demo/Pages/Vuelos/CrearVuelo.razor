@@ -1,0 +1,23 @@
+﻿@page "/crear-vuelo"
+
+@using Data.Vuelos;
+
+@inject NavigationManager NavigationManager
+@inject IVuelosService VueloService
+
+<h3>Crear vuelo</h3>
+
+<FormularioVuelo 
+    onSubmitAction="@OnCrearVuelo"
+    TextoBoton="Guardar vuelo" 
+    Vuelo="@vuelo"/>
+
+@code {
+    Vuelo vuelo = new Vuelo();
+
+    async Task OnCrearVuelo()
+    {
+        await VueloService.GuardarVuelo(vuelo);
+        NavigationManager.NavigateTo("vuelos");
+    }
+}

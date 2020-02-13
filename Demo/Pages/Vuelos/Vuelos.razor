@@ -11,6 +11,7 @@
 }
 else
 {
+    <a class="btn btn-primary" href="/crear-vuelo" role="button">Nuevo Vuelo</a>
     <table class="table">
         <thead>
             <tr>
@@ -25,16 +26,17 @@ else
         <tbody>
             @foreach (var vuelo in vuelos)
             {
-            <tr>
-                <td>@vuelo.Id</td>
-                <td>@vuelo.Origen</td>
-                <td>@vuelo.Destino</td>
-                <td>@vuelo.HoraLlegada</td>
-                <td>@vuelo.HoraSalida</td>
-                <td>
-
-                </td>
-            </tr>
+                <tr>
+                    <td>@vuelo.Id</td>
+                    <td>@vuelo.Origen</td>
+                    <td>@vuelo.Destino</td>
+                    <td>@vuelo.HoraLlegada</td>
+                    <td>@vuelo.HoraSalida</td>
+                    <td>
+                        <a type="button" class="btn btn-primary" href="/editar-vuelo/@vuelo.Id">Editar</a>
+                        <button type="button" class="btn btn-danger">Eliminar</button>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
@@ -43,7 +45,11 @@ else
 
 @code {
 
-    private Vuelo[] vuelos;
+    private List<Vuelo> vuelos;
+    public Vuelo Vuelo { get; set; } = new Vuelo();
+
+    public bool IsOpen { get; set; }
+    public string HeaderText { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

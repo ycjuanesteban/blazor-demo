@@ -1,0 +1,47 @@
+﻿@using Demo.Data.Vuelos;
+@inject NavigationManager NavigationManager
+
+
+    <EditForm Model="@Vuelo" OnValidSubmit="@onSubmitAction">
+
+        <div class="form-group">
+            <label for="Origen">Origen</label>
+            <InputText class="form-control" @bind-Value="Vuelo.Origen" />
+            <ValidationMessage For="@(() => Vuelo.Origen)" />
+        </div>
+
+        <div class="form-group">
+            <label for="Destino">Destino</label>
+            <InputText class="form-control" @bind-Value="Vuelo.Destino" />
+            <ValidationMessage For="@(() => Vuelo.Destino)" />
+        </div>
+
+        <div class="form-group">
+            <label for="Destino">Hora Salida</label>
+            <InputDate class="form-control" @bind-Value="Vuelo.HoraSalida" />
+            <ValidationMessage For="@(() => Vuelo.HoraSalida)" />
+        </div>
+
+        <div class="form-group">
+            <label for="Destino">Hora Llegada</label>
+            <InputDate class="form-control" @bind-Value="Vuelo.HoraLlegada" />
+            <ValidationMessage For="@(() => Vuelo.HoraLlegada)" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">@TextoBoton</button>
+        <a class="btn btn-secondary" @onclick="Cancelar">Cancelar</a>
+
+    </EditForm>
+
+@code {
+
+    [Parameter] public Vuelo Vuelo { get; set; } = new Vuelo();
+    [Parameter] public string TextoBoton { get; set; } = "Guardar vuelo";
+    [Parameter] public EventCallback onSubmitAction { get; set; }
+
+
+    private void Cancelar()
+    {
+        NavigationManager.NavigateTo("Vuelos");
+    }
+}
