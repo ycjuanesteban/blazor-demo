@@ -1,0 +1,73 @@
+﻿@page  "/js-interop"
+
+@inject IJSRuntime JSRuntime
+
+
+<h3>JS Interop</h3>
+
+<br />
+<br />
+
+<h3>Crear alerta</h3>
+<button class="btn btn-success" @onclick="ShowAlert">Crear Alerta</button>
+
+<br />
+<br />
+<br />
+
+<h3>Enviar texto</h3>
+
+<input @bind="questionText" />
+<button class="btn btn-warning" @onclick="ShowAlertAndSendText">Crear Alerta</button>
+<div>
+    La respuesta -> <span id="answer-span"></span>
+</div>
+
+<br />
+<br />
+<br />
+
+<h3>Focus pocus :D</h3>
+
+<input @ref="InputToFocus" />
+<button class="btn btn-outline-danger" @onclick="SetFocus">Poner focus papa!</button>
+
+<br />
+<br />
+<br />
+
+<h3>Llamdo de JS a Blazor</h3>
+
+<div>
+    El número random es: <span id="random-span"></span>
+</div>
+<button class="btn btn-outline-danger" onclick="callDotNetMethod()">Número random</button>
+
+
+@code {
+
+    string questionText = String.Empty;
+    ElementReference InputToFocus;
+
+    async Task ShowAlert()
+    {
+        await JSRuntime.InvokeVoidAsync("showAlert");
+    }
+
+    async Task ShowAlertAndSendText()
+    {
+        string response = await JSRuntime.InvokeAsync<string>("showQuestion", questionText);
+        await JSRuntime.InvokeVoidAsync("setElementById", "answer-span", response);
+    }
+
+    async Task SetFocus()
+    {
+        await JSRuntime.InvokeVoidAsync("setFocus", InputToFocus);
+    }
+
+    [JSInvokable]
+    public static Task<int> GenerateRandomInt()
+    {
+        return Task.FromResult(new Random().Next(77));
+    }
+}
